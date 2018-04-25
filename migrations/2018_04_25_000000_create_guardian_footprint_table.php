@@ -24,7 +24,7 @@ return Migration::createTable(
 
         // event information
         $table->string('event');
-        $table->integer('karma')->default(0);
+        $table->integer('score')->default(0);
         $table->integer('since_last_event')->unsigned()->nullable();
 
         // dates
