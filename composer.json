@@ -1,0 +1,39 @@
+{
+    "name": "flagrow/guardian",
+    "description": "The moderator Swiss army knife.",
+    "keywords": [
+        "extension",
+        "flarum",
+        "flagrow",
+        "moderation",
+        "security"
+    ],
+    "type": "flarum-extension",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Daniël Klabbers",
+            "email": "daniel@klabbers.email",
+            "homepage": "http://luceos.com"
+        }
+    ],
+    "require": {
+        "flarum/core": "^0.1.0-beta.8",
+        "flagrow/console": "^0.4"
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Flagrow Guardian",
+            "icon": {
+                "name": "shield-alt",
+                "backgroundColor": "#f4f4f4",
+                "color": "#5f4bb6"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Flagrow\\Guardian\\": "src/"
+        }
+    }
+}
