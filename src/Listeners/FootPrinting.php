@@ -2,44 +2,59 @@
 
 namespace Flagrow\Guardian\Listeners;
 
-use Flarum\User\Event as UserEvent;
+use Flagrow\Guardian\Events\Configuration;
+use Flagrow\Guardian\Events\FootPrinting as FootPrintingEvent;
+use Flagrow\Guardian\Exceptions\MissingActorException;
+use Flagrow\Guardian\Models\Footprint;
+use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
-use Zend\Diactoros\Request;
 
 class FootPrinting
 {
     /**
-     * @var Request
+     * @var Dispatcher
      */
-    private $request;
+    private $events;
+    /**
+     * @var Configuration
+     */
+    private $configuration;
 
-    public function __construct(Request $request)
+    public function __construct(Dispatcher $events, Configuration $configuration)
     {
-        $this->request = $request;
+        $this->events = $events;
+        $this->configuration = $configuration;
     }
 
     public function subscribe(Dispatcher $events)
     {
-        $events->listen([UserEvent\LoggedIn::class, UserEvent\Registered::class], [$this, 'authenticated']);
-        $events->listen(UserEvent\Saving::class, [$this, 'suspended']);
-        $events->listen(UserEvent\EmailChanged::class, [$this, 'emailChanged']);
+        $events->listen($this->configuration->pluck('class')->all(), [$this, 'genericPrint']);
     }
 
-    /**
-     * @param UserEvent\LoggedIn|UserEvent\Registered $event
-     */
-    public function authenticated($event)
+    public function genericPrint($event)
     {
+        $configuration = $this->configuration->get(get_class($event), []);
 
-    }
+        $getUserBy = array_get($configuration, 'user');
 
-    public function suspended(UserEvent\Saving $event)
-    {
+        $userId = array_get(json_decode(json_encode($event), true), "$getUserBy.id");
 
-    }
+        $actor = $userId ? User::find($userId) : null;
 
-    public function emailChanged(UserEvent\EmailChanged $event)
-    {
+        if (! $actor) {
+            throw new MissingActorException;
+        }
 
+        if ($actor->can('actWithoutFootprint')) {
+            return;
+        }
+
+        $attributes = collect();
+
+        $this->events->dispatch(
+            new FootPrintingEvent($event, $actor, $attributes)
+        );
+
+        Footprint::newForEvent($event, $actor, $attributes->toArray());
     }
 }

@@ -19,7 +19,9 @@
     ],
     "require": {
         "flarum/core": "^0.1.0-beta.8",
-        "flagrow/console": "^0.4"
+        "flagrow/console": "^0.4",
+        "jenssegers/agent": "2.*",
+        "symfony/yaml": "3.* || 4.*"
     },
     "extra": {
         "flarum-extension": {

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Flarum\Database\AbstractModel;
 use Flarum\User\User;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Psr\Http\Message\ServerRequestInterface;
+use Jenssegers\Agent\Agent;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -20,6 +20,9 @@ use Symfony\Component\HttpFoundation\Request;
  * @property bool $do_not_track
  * @property string $timezone
  * @property string $operating_system
+ * @property string $device
+ * @property string $browser
+ * @property string $robot
  * @property string $email
  * @property string $locale
  * @property string $event
@@ -37,25 +40,70 @@ class Footprint extends AbstractModel
 
     protected $dates = ['created_at'];
 
-    public static function newForEvent($event, array $attributes): Footprint
+    public static function newForEvent($event, User $actor, array $attributes = []): Footprint
     {
-        /** @var ServerRequestInterface $request */
+        /** @var Request $request */
         $request = Request::createFromGlobals();
 
-        $footprint = new Self;
+        /** @var Footprint $footprint */
+        $footprint = Footprint::unguarded(function () use ($attributes) {
+            return new Footprint($attributes);
+        });
 
-        $footprint->ip = $request->getHeader('remote-addr');
+        $footprint->event = get_class($event);
+
+        $footprint->ip = $request->getClientIp();
         $footprint->hostname = !$footprint->ip ?: gethostbyaddr($footprint->ip);
+        $footprint->user_agent = $request->headers->get('user-agent');
+        $footprint->do_not_track = $request->headers->get('dnt');
 
-        $footprint->accept_language = $request->getHeader('accept-language');
-        $footprint->user_agent = $request->getHeader('user-agent');
-        $footprint->do_not_track = $request->getHeader('dnt');
+        /** @var Agent $agent */
+        $agent = app()->make(Agent::class);
+
+        $footprint->accept_language = implode(',', $agent->languages());
+        $footprint->operating_system = $agent->platform();
+        $footprint->device = $agent->device();
+        $footprint->browser = $agent->browser();
+
+        if ($agent->isRobot()) {
+            $footprint->robot = $agent->robot();
+        }
+
+        $footprint->user()->associate($actor);
+
+        $footprint->email = $actor->email;
+        $footprint->locale = $actor->locale;
+
+        $last = optional(static::lastByUser($actor))->created_at ?? $actor->join_time;
+
+        $footprint->since_last_event = $last->diffInSeconds();
+
+        $footprint->save();
 
         return $footprint;
+    }
+
+    /**
+     * @param User $user
+     * @return Footprint|null
+     */
+    public static function lastByUser(User $user)
+    {
+        return Footprint::query()->where('user_id', $user->id)->latest('created_at')->first();
     }
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public static function totalScoreForUser(User $user): int
+    {
+        return Footprint::query()->where('user_id', $user->id)->sum('score') ?? 0;
+    }
+
+    public static function averageBetweenTimeForUser(User $user): int
+    {
+        return Footprint::query()->where('user_id', $user->id)->average('since_last_event') ?? 0;
     }
 }

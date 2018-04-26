@@ -1,0 +1,4 @@
+flagrow-guardian:
+    admin:
+        permissions:
+            act_without_footprint: Act without footprint

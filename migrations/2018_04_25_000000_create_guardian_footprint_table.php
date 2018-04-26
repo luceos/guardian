@@ -17,6 +17,9 @@ return Migration::createTable(
         $table->boolean('do_not_track')->default(0);
         $table->string('timezone')->nullable();
         $table->string('operating_system')->nullable();
+        $table->string('device')->nullable();
+        $table->string('browser')->nullable();
+        $table->string('robot')->nullable();
 
         // user preferences
         $table->string('email')->nullable();
