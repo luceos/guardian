@@ -2,11 +2,11 @@
 
 namespace Flagrow\Guardian\Scoring;
 
-use Flagrow\Guardian\Contracts\Hook;
+use Flagrow\Guardian\Contracts\ScoringHook;
 use Flagrow\Guardian\Events\FootPrinting;
 use Flarum\Discussion\Event\Deleted;
 
-class DiscussionDeleted implements Hook
+class DiscussionDeleted implements ScoringHook
 {
     public function __invoke(FootPrinting $event)
     {
