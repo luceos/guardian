@@ -33,6 +33,7 @@ class FootPrinting
 
     public function genericPrint($event)
     {
+        /** @var array $configuration */
         $configuration = $this->configuration->get(get_class($event), []);
 
         $getUserBy = array_get($configuration, 'user');

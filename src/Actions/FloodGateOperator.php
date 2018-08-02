@@ -1,10 +1,10 @@
 <?php
 
-namespace Flagrow\Guardian\Listeners;
+namespace Flagrow\Guardian\Actions;
 
 use Flagrow\Guardian\Models\Footprint;
 use Illuminate\Contracts\Events\Dispatcher;
-use Flarum\Post\Event\ChecksForFlooding;
+use Flarum\Post\Event\CheckingForFlooding;
 
 class FloodGateOperator
 {
@@ -14,7 +14,7 @@ class FloodGateOperator
         $events->listen(ChecksForFlooding::class, [$this, 'operate']);
     }
 
-    public function operate(ChecksForFlooding $event)
+    public function operate(CheckingForFlooding $event)
     {
         if ($event->actor->can('actWithoutFlooding')) {
             return false;

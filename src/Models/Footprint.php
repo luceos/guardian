@@ -74,7 +74,7 @@ class Footprint extends AbstractModel
         $footprint->email = $actor->email;
         $footprint->locale = $actor->locale;
 
-        $last = optional(static::lastByUser($actor))->created_at ?? $actor->join_time;
+        $last = optional(static::lastByUser($actor))->created_at ?? $actor->joined_at;
 
         $footprint->since_last_event = $last->diffInSeconds();
 

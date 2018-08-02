@@ -1,19 +1,19 @@
 <?php
 
-namespace Flagrow\Guardian\Scoring;
+namespace Flagrow\Guardian\Markers;
 
-use Flagrow\Guardian\Contracts\ScoringHook;
+use Flagrow\Guardian\Contracts\Marker;
 use Flagrow\Guardian\Events\FootPrinting;
 use Flarum\Discussion\Event\Deleted;
 
-class DiscussionDeleted implements ScoringHook
+class DiscussionDeleted implements Marker
 {
     public function __invoke(FootPrinting $event)
     {
         /** @var Deleted  $event */
         $event = $event->event;
 
-        if ($event->discussion->comments_count > 1) {
+        if ($event->discussion->comment_count > 1) {
             return -5;
         }
 

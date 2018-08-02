@@ -26,7 +26,8 @@ return [
         $events->subscribe(Listeners\FootPrinting::class);
         $events->subscribe(Listeners\ScoreEvent::class);
 
-        $events->subscribe(Listeners\PreventBots::class);
-        $events->subscribe(Listeners\FloodGateOperator::class);
+        // Actions.
+        $events->subscribe(Actions\PreventBots::class);
+        $events->subscribe(Actions\FloodGateOperator::class);
     }
 ];

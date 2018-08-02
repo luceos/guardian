@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\Guardian\Listeners;
+namespace Flagrow\Guardian\Actions;
 
 use Carbon\Carbon;
 use Flarum\Extension\ExtensionManager;
@@ -46,7 +46,7 @@ class PreventBots
         if ($this->extensions->getEnabledExtensions()->has('flarum-suspend')) {
             $event->user->suspend_until = (new Carbon())->addCentury();
         } else {
-            $event->user->is_activated = false;
+            $event->user->is_email_confirmed = false;
         }
     }
 }

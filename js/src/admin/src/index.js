@@ -3,7 +3,6 @@ import app from 'flarum/app';
 import PermissionGrid from 'flarum/components/PermissionGrid';
 
 app.initializers.add('flagrow-guardian', () => {
-
     extend(PermissionGrid.prototype, 'startItems', items => {
         items.add('actWithoutFootprint', {
             icon: 'fas fa-shield-alt',
