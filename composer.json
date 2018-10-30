@@ -1,6 +1,6 @@
 {
     "name": "flagrow/guardian",
-    "description": "The moderator Swiss army knife.",
+    "description": "Automates reviewing users based on their forum behaviour and activity.",
     "keywords": [
         "extension",
         "flarum",
