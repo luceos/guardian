@@ -25,9 +25,9 @@
     },
     "extra": {
         "flarum-extension": {
-            "title": "Flagrow Guardian",
+            "title": "Guardian",
             "icon": {
-                "name": "shield-alt",
+                "name": "far fa-shield-alt",
                 "backgroundColor": "#f4f4f4",
                 "color": "#5f4bb6"
             }
