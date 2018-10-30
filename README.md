@@ -2,7 +2,7 @@
 
 # guardian
 
-Guardian is an extension for Flarum. It automates reviewing users based on their behaviour.
+Guardian is an extension for Flarum that automates reviewing users based on their forum behaviour and activity.
 
 # How it works
 
