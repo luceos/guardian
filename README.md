@@ -36,3 +36,13 @@ which is being used to dynamically modify the score if so required by a Marker c
 Marker classes allow for more complex scoring during events. For instance it allows to calculate the
 number of posts or discussions of an actor. An example of such a marker can be found in the [DiscussionDeleted one](src/Markers/DiscussionDeleted.php)
 because you're impacted increasingly negatively in case your discussion was deleted with replies.
+
+# License
+
+This extension is made available under the [CC-BY-NC-SA 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/), meaning:
+
+- You are allowed to use and fork this code.
+- You cannot publish this extension under another license or keep it closed source.
+- You cannot use it commercially.
+
+This license is implemented to ensure we all work on the same code base in order to achieve the best result possible.
