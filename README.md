@@ -1,5 +1,3 @@
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a>
-
 # guardian
 
 Guardian is an extension for Flarum that automates reviewing users based on their forum behaviour and activity.
@@ -39,10 +37,9 @@ because you're impacted increasingly negatively in case your discussion was dele
 
 # License
 
-This extension is made available under the [CC-BY-NC-SA 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/), meaning:
+This extension is made available under the [GPL-3.0-or-later](https://spdx.org/licenses/GPL-3.0-or-later.html#licenseText), meaning:
 
 - You are allowed to use and fork this code.
 - You cannot publish this extension under another license or keep it closed source.
-- You cannot use it commercially.
 
 This license is implemented to ensure we all work on the same code base in order to achieve the best result possible.
