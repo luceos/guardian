@@ -9,7 +9,7 @@
         "security"
     ],
     "type": "flarum-extension",
-    "license": "cc-by-nc-sa-4.0",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Daniël Klabbers",
