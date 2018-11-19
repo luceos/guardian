@@ -7,15 +7,13 @@ use Flarum\Foundation\Application;
 use Illuminate\Contracts\Events\Dispatcher;
 
 return [
-    (new Extend\Assets('admin'))
-        ->asset(__DIR__ . '/js/admin/dist/extension.js')
-        ->bootstrapper('flagrow/guardian/main'),
+    (new Extend\Frontend('admin'))
+        ->js(__DIR__ . '/js/dist/admin.js'),
 
-//    (new Extend\Assets('forum'))
-//        ->asset(__DIR__ . '/js/forum/dist/extension.js')
-//        ->bootstrapper('flagrow/guardian/main'),
+//    (new Extend\Frontend('forum'))
+//        ->js(__DIR__ . '/js/forum/dist/extension.js')
 
-    (new Extend\Locales(__DIR__.'/resources/locale')),
+    new Extend\Locales(__DIR__.'/resources/locale'),
 
     function (Application $app) {
         $app->register(Providers\GuardianServiceProvider::class);
