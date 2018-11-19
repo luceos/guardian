@@ -1,5 +1,5 @@
 {
-    "name": "flagrow/guardian",
+    "name": "fof/guardian",
     "description": "Automates reviewing users based on their forum behaviour and activity.",
     "keywords": [
         "extension",
@@ -25,11 +25,11 @@
     },
     "extra": {
         "flarum-extension": {
-            "title": "Guardian",
+            "title": "FoF Guardian",
             "icon": {
-                "name": "far fa-shield-alt",
-                "backgroundColor": "#f4f4f4",
-                "color": "#5f4bb6"
+                "name": "fas fa-shield-alt",
+                "backgroundColor": "#e74c3c",
+                "color": "#fff"
             }
         }
     },
@@ -39,3 +39,4 @@
         }
     }
 }
+
