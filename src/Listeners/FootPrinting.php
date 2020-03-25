@@ -1,11 +1,11 @@
 <?php
 
-namespace Flagrow\Guardian\Listeners;
+namespace FoF\Guardian\Listeners;
 
-use Flagrow\Guardian\Events\Configuration;
-use Flagrow\Guardian\Events\FootPrinting as FootPrintingEvent;
-use Flagrow\Guardian\Exceptions\MissingActorException;
-use Flagrow\Guardian\Models\Footprint;
+use FoF\Guardian\Events\Configuration;
+use FoF\Guardian\Events\FootPrinting as FootPrintingEvent;
+use FoF\Guardian\Exceptions\MissingActorException;
+use FoF\Guardian\Models\Footprint;
 use Flarum\User\User;
 use Illuminate\Contracts\Events\Dispatcher;
 

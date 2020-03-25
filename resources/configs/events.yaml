@@ -31,4 +31,4 @@
 - name: Discussion deleted
   class: Flarum\Discussion\Event\Deleted
   user: discussion.startUser
-  score: Flagrow\Guardian\Markers\DiscussionDeleted
+  score: FoF\Guardian\Markers\DiscussionDeleted

@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\Guardian;
+namespace FoF\Guardian;
 
 use Flarum\Extend;
 use Flarum\Foundation\Application;

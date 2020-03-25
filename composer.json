@@ -18,8 +18,8 @@
         }
     ],
     "require": {
-        "flarum/core": "^0.1.0-beta.8",
-        "flagrow/console": "^0.4",
+        "flarum/core": "^0.1.0-beta.11",
+        "fof/console": "^0.5.2",
         "jenssegers/agent": "2.*",
         "symfony/yaml": "3.* || 4.*"
     },
@@ -35,7 +35,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Flagrow\\Guardian\\": "src/"
+            "FoF\\Guardian\\": "src/"
         }
     }
 }

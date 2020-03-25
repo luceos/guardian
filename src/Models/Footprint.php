@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\Guardian\Models;
+namespace FoF\Guardian\Models;
 
 use Carbon\Carbon;
 use Flarum\Database\AbstractModel;

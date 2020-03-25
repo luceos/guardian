@@ -1,10 +1,10 @@
 <?php
 
-namespace Flagrow\Guardian\Listeners;
+namespace FoF\Guardian\Listeners;
 
-use Flagrow\Guardian\Contracts\Marker;
-use Flagrow\Guardian\Events\Configuration;
-use Flagrow\Guardian\Events\FootPrinting;
+use FoF\Guardian\Contracts\Marker;
+use FoF\Guardian\Events\Configuration;
+use FoF\Guardian\Events\FootPrinting;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class ScoreEvent

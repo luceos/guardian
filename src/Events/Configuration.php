@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\Guardian\Events;
+namespace FoF\Guardian\Events;
 
 use Illuminate\Support\Collection;
 

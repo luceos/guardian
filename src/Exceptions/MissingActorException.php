@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\Guardian\Exceptions;
+namespace FoF\Guardian\Exceptions;
 
 class MissingActorException extends \InvalidArgumentException
 {

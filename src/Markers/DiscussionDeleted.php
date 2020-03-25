@@ -1,9 +1,9 @@
 <?php
 
-namespace Flagrow\Guardian\Markers;
+namespace FoF\Guardian\Markers;
 
-use Flagrow\Guardian\Contracts\Marker;
-use Flagrow\Guardian\Events\FootPrinting;
+use FoF\Guardian\Contracts\Marker;
+use FoF\Guardian\Events\FootPrinting;
 use Flarum\Discussion\Event\Deleted;
 
 class DiscussionDeleted implements Marker

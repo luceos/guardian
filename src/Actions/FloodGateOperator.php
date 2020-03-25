@@ -1,8 +1,8 @@
 <?php
 
-namespace Flagrow\Guardian\Actions;
+namespace FoF\Guardian\Actions;
 
-use Flagrow\Guardian\Models\Footprint;
+use FoF\Guardian\Models\Footprint;
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Post\Event\CheckingForFlooding;
 

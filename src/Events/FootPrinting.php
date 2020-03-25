@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\Guardian\Events;
+namespace FoF\Guardian\Events;
 
 use Flarum\User\User;
 use Illuminate\Support\Collection;

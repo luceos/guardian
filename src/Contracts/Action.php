@@ -1,8 +1,8 @@
 <?php
 
-namespace Flagrow\Guardian\Contracts;
+namespace FoF\Guardian\Contracts;
 
-use Flagrow\Guardian\Models\Footprint;
+use FoF\Guardian\Models\Footprint;
 
 interface Action
 {

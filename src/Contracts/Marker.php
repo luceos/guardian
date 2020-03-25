@@ -1,8 +1,8 @@
 <?php
 
-namespace Flagrow\Guardian\Contracts;
+namespace FoF\Guardian\Contracts;
 
-use Flagrow\Guardian\Events\FootPrinting;
+use FoF\Guardian\Events\FootPrinting;
 
 interface Marker
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\Guardian\Actions;
+namespace FoF\Guardian\Actions;
 
 use Carbon\Carbon;
 use Flarum\Extension\ExtensionManager;

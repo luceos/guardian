@@ -1,8 +1,8 @@
 <?php
 
-namespace Flagrow\Guardian\Providers;
+namespace FoF\Guardian\Providers;
 
-use Flagrow\Guardian\Events\Configuration;
+use FoF\Guardian\Events\Configuration;
 use Flarum\Foundation\AbstractServiceProvider;
 use Symfony\Component\Yaml\Yaml;
 
