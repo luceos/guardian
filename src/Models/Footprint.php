@@ -57,6 +57,8 @@ class Footprint extends AbstractModel
         $footprint->user_agent = $request->headers->get('user-agent');
         $footprint->do_not_track = $request->headers->get('dnt');
 
+        $footprint->is_negative = $attributes['score'] < 0 ? true : false;
+
         /** @var Agent $agent */
         $agent = app()->make(Agent::class);
 
@@ -99,7 +101,33 @@ class Footprint extends AbstractModel
 
     public static function totalScoreForUser(User $user): int
     {
-        return Footprint::query()->where('user_id', $user->id)->sum('score') ?? 0;
+        $footprints = Footprint::query()->where('user_id', $user->id)->get();
+
+        $totalVotes = $footprints->sum('score');
+        $positiveVotes = $footprints->where('is_negative', false)->sum('score');
+
+        die(var_dump(tatic::getLowerBound($positiveVotes, $totalVotes)));
+
+        return (float) $totalVotes ? static::getLowerBound($positiveVotes, $totalVotes) : 0;
+    }
+
+    /**
+     * Run a Wilson Confidence Interval on the data to determine
+     * the lower bound of positive karma. More data (and positive karma) will equal a higher lower bound
+     * while less data is uncertain and will have a lower lower bound.
+     *
+     * @param int $positiveVotes
+     * @param int $totalVotes
+     * @return float|int
+     */
+    private static function getLowerBound(int $positiveVotes, int $totalVotes)
+    {
+        $confidence = 1.959964;
+        $prop = 1.0 * $positiveVotes / $totalVotes;
+        $numerator   = $prop + $confidence * $confidence / (2 * $totalVotes) - $confidence * sqrt(($prop * (1 - $prop) + $confidence * $confidence / (4 * $totalVotes)) / $totalVotes);
+        $denominator = 1 + $confidence * $confidence / $totalVotes;
+
+        return $numerator / $denominator;
     }
 
     public static function averageBetweenTimeForUser(User $user): int
