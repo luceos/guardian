@@ -2,8 +2,8 @@
 
 namespace FoF\Guardian\Providers;
 
-use FoF\Guardian\Events\Configuration;
 use Flarum\Foundation\AbstractServiceProvider;
+use FoF\Guardian\Events\Configuration;
 use Symfony\Component\Yaml\Yaml;
 
 class GuardianServiceProvider extends AbstractServiceProvider
@@ -12,17 +12,25 @@ class GuardianServiceProvider extends AbstractServiceProvider
     {
         $this->app->singleton(Configuration::class, function () {
             foreach ([
-                         storage_path('guardian/events.yaml'),
+                         storage_path('guardian/guardian.yaml'),
                          base_path('guardian.yaml'),
-                         __DIR__ . '/../../resources/configs/events.yaml'
+                         __DIR__ . '/../../resources/configs/guardian.yaml'
                      ] as $path) {
                 if (file_exists($path)) {
                     break;
                 }
             }
 
-            return (new Configuration(file_exists($path) ? Yaml::parseFile($path) : []))
-                ->keyBy('class');
+            $config = (new Configuration(file_exists($path) ? Yaml::parseFile($path) : []))
+            ->map(function ($subject, $key) {
+                if (is_array($subject)) {
+                    return collect($subject)->keyBy($key === 'events' ? 'class' : 'name');
+                }
+
+                return $subject;
+            });;
+
+            return $config;
         });
     }
 }

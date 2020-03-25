@@ -16,7 +16,7 @@ class ScoreEvent
 
     public function __construct(Configuration $configuration)
     {
-        $this->configuration = $configuration;
+        $this->configuration = $configuration['events'];
     }
 
     public function subscribe(Dispatcher $events)

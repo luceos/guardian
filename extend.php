@@ -4,6 +4,9 @@ namespace FoF\Guardian;
 
 use Flarum\Extend;
 use Flarum\Foundation\Application;
+use Flarum\Post\Event\CheckingForFlooding;
+use Flarum\User\Event\LoggedIn;
+use Flarum\User\Event\Registered;
 use Illuminate\Contracts\Events\Dispatcher;
 
 return [
@@ -25,7 +28,10 @@ return [
         $events->subscribe(Listeners\ScoreEvent::class);
 
         // Actions.
-        $events->subscribe(Actions\PreventBots::class);
-        $events->subscribe(Actions\FloodGateOperator::class);
+        $events->listen(CheckingForFlooding::class, Actions\FloodGateOperator::class);
+        $events->listen([
+            Registered::class,
+            LoggedIn::class
+        ], Actions\PreventBots::class);
     }
 ];

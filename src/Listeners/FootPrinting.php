@@ -23,7 +23,7 @@ class FootPrinting
     public function __construct(Dispatcher $events, Configuration $configuration)
     {
         $this->events = $events;
-        $this->configuration = $configuration;
+        $this->configuration = $configuration['events'];
     }
 
     public function subscribe(Dispatcher $events)

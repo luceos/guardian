@@ -1,0 +1,53 @@
+events:
+  - name: User logged in
+    class: Flarum\User\Event\LoggedIn
+    score: 1
+    user: user
+
+  - name: User registered
+    class: Flarum\User\Event\Registered
+    user: user
+
+  - name: User edited or created a post
+    class: Flarum\Post\Event\Saving
+    user: actor
+    score: 1
+
+  - name: User changed mail address
+    class: Flarum\User\Event\EmailChanged
+    user: user
+
+  - name: Post hidden
+    class: Flarum\Post\Event\Hidden
+    user: post.user
+    score: -5
+
+  - name: Post deleted
+    class: Flarum\Post\Event\Deleted
+    user: post.user
+    score: -10
+
+  - name: Post approved
+    class: Flarum\Approval\Event\PostWasApproved
+    user: post.user
+    score: 10
+
+  - name: Discussion hidden
+    class: Flarum\Discussion\Event\Hidden
+    user: discussion.startUser
+    score: -5
+
+  - name: Discussion deleted
+    class: Flarum\Discussion\Event\Deleted
+    user: discussion.startUser
+    score: FoF\Guardian\Markers\DiscussionDeleted
+
+effects:
+  - name: Flooding
+    thresholds:
+      - 0.25
+      - 0.75
+    effects:
+      - 1 minute
+      - 20 seconds
+    fallback: true

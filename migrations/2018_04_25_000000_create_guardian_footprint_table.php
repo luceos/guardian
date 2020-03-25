@@ -28,6 +28,7 @@ return Migration::createTable(
         // event information
         $table->string('event');
         $table->integer('score')->default(0);
+        $table->boolean('is_negative')->default(false);
         $table->integer('since_last_event')->unsigned()->nullable();
 
         // dates

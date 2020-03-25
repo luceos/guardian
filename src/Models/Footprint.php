@@ -55,7 +55,7 @@ class Footprint extends AbstractModel
         $footprint->ip = $request->getClientIp();
         $footprint->hostname = !$footprint->ip ?: gethostbyaddr($footprint->ip);
         $footprint->user_agent = $request->headers->get('user-agent');
-        $footprint->do_not_track = $request->headers->get('dnt');
+        $footprint->do_not_track = !$request->headers->get('dnt') ? false : true;
 
         $footprint->is_negative = $attributes['score'] < 0 ? true : false;
 
@@ -87,7 +87,7 @@ class Footprint extends AbstractModel
 
     /**
      * @param User $user
-     * @return Footprint|null
+     * @return \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|null|object
      */
     public static function lastByUser(User $user)
     {
@@ -99,14 +99,13 @@ class Footprint extends AbstractModel
         return $this->belongsTo(User::class);
     }
 
-    public static function totalScoreForUser(User $user): int
+    public static function totalScoreForUser(User $user): float
     {
         $footprints = Footprint::query()->where('user_id', $user->id)->get();
 
-        $totalVotes = $footprints->sum('score');
-        $positiveVotes = $footprints->where('is_negative', false)->sum('score');
+        $totalVotes = $footprints->where('score', '!=', 0)->count();
 
-        die(var_dump(tatic::getLowerBound($positiveVotes, $totalVotes)));
+        $positiveVotes = $footprints->where('is_negative', false)->sum('score');
 
         return (float) $totalVotes ? static::getLowerBound($positiveVotes, $totalVotes) : 0;
     }

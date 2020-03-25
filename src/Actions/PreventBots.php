@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Flarum\Extension\ExtensionManager;
 use Flarum\User\Event\LoggedIn;
 use Flarum\User\Event\Registered;
-use Illuminate\Contracts\Events\Dispatcher;
 use Jenssegers\Agent\Agent;
 
 class PreventBots
@@ -26,18 +25,10 @@ class PreventBots
         $this->extensions = $extensions;
     }
 
-    public function subscribe(Dispatcher $events)
-    {
-        $events->listen([
-            Registered::class,
-            LoggedIn::class
-        ], [$this, 'prevent']);
-    }
-
     /**
      * @param Registered|LoggedIn $event
      */
-    public function prevent($event)
+    public function handle($event)
     {
         if (!$this->agent->isRobot()) {
             return;
