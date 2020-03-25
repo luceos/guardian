@@ -10,11 +10,5 @@ app.initializers.add('fof-guardian', () => {
             permission: 'actWithoutFootprint',
             allowGuest: true
         }, 5);
-        items.add('actWithoutFlooding', {
-            icon: 'fas fa-shipping-fast',
-            label: app.translator.trans('flagrow-guardian.admin.permissions.act_without_floodgate'),
-            permission: 'actWithoutFlooding',
-            allowGuest: true
-        }, 5);
     });
 });
