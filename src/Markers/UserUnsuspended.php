@@ -24,8 +24,7 @@ class UserUnsuspended implements Marker
 
         $karmaLost = $suspendEntry->score;
 
-        // Log function that makes bans immediately very costly to karma but essentially cap on total karma
-        // loss after a few days
+        // Calculate the amount of Karma the user should get back
         $points = abs($karmaLost - intval(round(-65 * (log(($daysSince)/2, 12) + 1))));
 
         return $points;
