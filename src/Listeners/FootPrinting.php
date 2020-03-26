@@ -38,7 +38,7 @@ class FootPrinting
 
         $getUserBy = array_get($configuration, 'user');
 
-        $userId = array_get(json_decode(json_encode($event), true), "$getUserBy.id");
+        $userId = array_get(json_decode(json_encode($event), true), substr($getUserBy, -2) === 'id' ? $getUserBy : "$getUserBy.id");
 
         $actor = $userId ? User::find($userId) : null;
 

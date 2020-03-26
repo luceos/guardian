@@ -22,17 +22,13 @@ class FloodGateOperator
 
     public function handle(CheckingForFlooding $event)
     {
-        if ($event->actor->can('postWithoutThrottle')) {
-            return false;
-        }
-
         $score = Footprint::totalScoreForUser($event->actor);
 
         $configuration = $this->configuration->get('Flooding');
 
         foreach ($configuration['thresholds'] as $level => $threshold) {
-            if ($score < floatval($threshold)) {
-                if (Post::where('user_id', $event->actor->id)->where('created_at', '>=', new DateTime("-{$configuration['effects'][$level]}"))->exists()) {
+            if ($score < floatval($level)) {
+                if (Post::where('user_id', $event->actor->id)->where('created_at', '>=', new DateTime("-$threshold"))->exists()) {
                     return true;
                 }
             }

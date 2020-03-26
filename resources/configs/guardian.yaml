@@ -19,35 +19,42 @@ events:
 
   - name: Post hidden
     class: Flarum\Post\Event\Hidden
-    user: post.user
+    user: post.user_id
     score: -5
 
   - name: Post deleted
     class: Flarum\Post\Event\Deleted
-    user: post.user
+    user: post.user_id
     score: -10
 
   - name: Post approved
     class: Flarum\Approval\Event\PostWasApproved
-    user: post.user
+    user: post.user_id
     score: 10
 
   - name: Discussion hidden
     class: Flarum\Discussion\Event\Hidden
-    user: discussion.startUser
+    user: discussion.user_id
     score: -5
 
   - name: Discussion deleted
     class: Flarum\Discussion\Event\Deleted
-    user: discussion.startUser
+    user: discussion.user_id
     score: FoF\Guardian\Markers\DiscussionDeleted
+
+  - name: User Suspended
+    class: Flarum\Suspend\Event\Suspended
+    user: user
+    score: FoF\Guardian\Markers\UserSuspended
+
+  - name: User Unsuspended
+    class: Flarum\Suspend\Event\Unsuspended
+    user: user
+    score: FoF\Guardian\Markers\UserUnsuspended
 
 effects:
   - name: Flooding
     thresholds:
-      - 0.25
-      - 0.75
-    effects:
-      - 1 minute
-      - 20 seconds
+      0.25: 1 minute
+      0.5: 20 seconds
     fallback: true

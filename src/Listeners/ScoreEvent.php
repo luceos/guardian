@@ -35,9 +35,9 @@ class ScoreEvent
             class_exists($score) &&
             in_array(Marker::class, class_implements($score))) {
             $score = new $score;
-            $score = $event->attributes->put('score', $score($event));
+            $event->attributes->put('score', $score($event));
+        } else {
+            $event->attributes->put('score', $score);
         }
-
-        $event->attributes->put('score', $score);
     }
 }

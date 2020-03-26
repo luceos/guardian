@@ -52,10 +52,15 @@ class Footprint extends AbstractModel
 
         $footprint->event = get_class($event);
 
-        $footprint->ip = $request->getClientIp();
+        // Get optional Cloudflare headers
+        $cf = $request->headers->get('CF-Connecting-IP');
+        $country = $request->headers->get('cf-ipcountry');
+
+        $footprint->ip = $cf ? $cf : $request->getClientIp();
         $footprint->hostname = !$footprint->ip ?: gethostbyaddr($footprint->ip);
         $footprint->user_agent = $request->headers->get('user-agent');
-        $footprint->do_not_track = !$request->headers->get('dnt') ? false : true;
+        $footprint->country = $country;
+        $footprint->do_not_track = (bool) $request->headers->get('dnt');
 
         $footprint->is_negative = $attributes['score'] < 0 ? true : false;
 
@@ -103,11 +108,16 @@ class Footprint extends AbstractModel
     {
         $footprints = Footprint::query()->where('user_id', $user->id)->get();
 
-        $totalVotes = $footprints->where('score', '!=', 0)->count();
-
         $positiveVotes = $footprints->where('is_negative', false)->sum('score');
 
+        $totalVotes = $positiveVotes + abs($footprints->where('is_negative', true)->sum('score'));
+
         return (float) $totalVotes ? static::getLowerBound($positiveVotes, $totalVotes) : 0;
+    }
+
+    public static function averageBetweenTimeForUser(User $user): int
+    {
+        return Footprint::query()->where('user_id', $user->id)->average('since_last_event') ?? 0;
     }
 
     /**
@@ -117,9 +127,9 @@ class Footprint extends AbstractModel
      *
      * @param int $positiveVotes
      * @param int $totalVotes
-     * @return float|int
+     * @return float
      */
-    private static function getLowerBound(int $positiveVotes, int $totalVotes)
+    private static function getLowerBound(int $positiveVotes, int $totalVotes) : float
     {
         $confidence = 1.959964;
         $prop = 1.0 * $positiveVotes / $totalVotes;
@@ -127,10 +137,5 @@ class Footprint extends AbstractModel
         $denominator = 1 + $confidence * $confidence / $totalVotes;
 
         return $numerator / $denominator;
-    }
-
-    public static function averageBetweenTimeForUser(User $user): int
-    {
-        return Footprint::query()->where('user_id', $user->id)->average('since_last_event') ?? 0;
     }
 }
