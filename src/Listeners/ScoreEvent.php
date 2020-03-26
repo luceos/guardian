@@ -34,7 +34,8 @@ class ScoreEvent
         if (!filter_var($score, FILTER_VALIDATE_INT) &&
             class_exists($score) &&
             in_array(Marker::class, class_implements($score))) {
-            $score = $event->attributes->put('score', (new $score)->__invoke($event));
+            $score = new $score;
+            $score = $event->attributes->put('score', $score($event));
         }
 
         $event->attributes->put('score', $score);
