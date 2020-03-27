@@ -112,7 +112,7 @@ class Footprint extends AbstractModel
 
         $totalVotes = $positiveVotes + abs($footprints->where('is_negative', true)->sum('score'));
 
-        return (float) $totalVotes ? static::getLowerBound($positiveVotes, $totalVotes) : 0;
+        return (float) $totalVotes ? static::getLowerBound($positiveVotes, $totalVotes) : 0.1;
     }
 
     public static function averageBetweenTimeForUser(User $user): int

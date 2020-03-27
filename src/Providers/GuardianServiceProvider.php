@@ -2,6 +2,7 @@
 
 namespace FoF\Guardian\Providers;
 
+use Illuminate\Encryption\Encrypter;
 use Flarum\Foundation\AbstractServiceProvider;
 use FoF\Guardian\Events\Configuration;
 use Symfony\Component\Yaml\Yaml;
@@ -31,6 +32,10 @@ class GuardianServiceProvider extends AbstractServiceProvider
             });;
 
             return $config;
+        });
+
+        $this->app->singleton('guardian.encrypter', function () {
+            return new Encrypter((string) $this->app('flarum.settings')->get('guardian.encryption_key'), 'AES-256-CBC');
         });
     }
 }
