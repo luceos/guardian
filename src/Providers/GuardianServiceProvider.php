@@ -33,9 +33,5 @@ class GuardianServiceProvider extends AbstractServiceProvider
 
             return $config;
         });
-
-        $this->app->singleton('guardian.encrypter', function () {
-            return new Encrypter((string) $this->app('flarum.settings')->get('guardian.encryption_key'), 'AES-256-CBC');
-        });
     }
 }

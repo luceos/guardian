@@ -19,10 +19,10 @@
     ],
     "require": {
         "flarum/core": "^0.1.0-beta.12",
-        "illuminate/encryption": "5.7.*",
         "fof/console": "^0.5.2",
         "jenssegers/agent": "2.*",
-        "symfony/yaml": "3.* || 4.*"
+        "symfony/yaml": "3.* || 4.*",
+        "ext-openssl": "*"
     },
     "extra": {
         "flarum-extension": {

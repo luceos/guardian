@@ -2,8 +2,9 @@
 
 namespace FoF\Guardian\Middleware;
 
-use Illuminate\Support\Arr;
+use DateTime;
 use FoF\Guardian\Exceptions\BotException;
+use Illuminate\Support\Arr;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -20,18 +21,14 @@ class BotMiddleware implements MiddlewareInterface
         $data = Arr::get($request->getParsedBody(), 'data', []);
 
         $honeyPotName = $this->getHoneyPotName($data);
+        $time = $this->getEncryptedTime('0d5256759324091451b6baeaedfb7bd7');
+        
 
         if (!$honeyPotName) {
             return $handler->handle($request);
         }
 
-        if (!empty($data[$honeyPotName])) {
-            throw new BotException;
-        }
-
-        $time = $this->getEncryptedTime($data['timestamp']);
-
-        if ($time > new DateTime()) {
+        if (!empty($data[$honeyPotName]) || $time > new DateTime()) {
             throw new BotException;
         }
 
@@ -47,6 +44,16 @@ class BotMiddleware implements MiddlewareInterface
 
     private function getEncryptedTime($time)
     {
-        new DateTime(app('guardian.encrypter')->decrypt($time));
+        $date = new DateTime();
+
+        return $date->setTimestamp(substr(
+                \openssl_decrypt(
+                    hex2bin($time),
+                    'aes-128-cbc',
+                    app('flarum.settings')->get('guardian.encryption_key'),
+                    OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING
+                ), 0, -6)
+        );
     }
+
 }
